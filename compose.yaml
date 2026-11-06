@@ -1,0 +1,35 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: WebDev3_Project
+      DB_USER: webdev3
+      DB_PASSWORD: webdev3
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.4
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_DATABASE: WebDev3_Project
+      MYSQL_USER: webdev3
+      MYSQL_PASSWORD: webdev3
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - project_db_data:/var/lib/mysql
+      - ./database.sql:/docker-entrypoint-initdb.d/01-database.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  project_db_data:
