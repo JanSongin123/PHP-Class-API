@@ -37,7 +37,7 @@ function findByName(Response $response, PDO $db, string $name): Response{
 }
 
 function findByProfessor(Response $response, PDO $db, string $professor): Response{
-    $statement = $db->prepare("SELECT * FROM class WHERE professor LIKE :professor ORDER BY professor");
+    $statement = $db->prepare("SELECT * FROM class WHERE professor LIKE :professor ORDER BY name");
     $statement->execute(["professor"=> "%" . $professor ."%"]);
     $class = $statement->fetchAll();
 
@@ -45,7 +45,7 @@ function findByProfessor(Response $response, PDO $db, string $professor): Respon
 }
 
 function findByRoom(Response $response, PDO $db, string $room): Response{
-    $statement = $db->prepare("SELECT * FROM class WHERE room LIKE :room ORDER BY room");
+    $statement = $db->prepare("SELECT * FROM class WHERE room LIKE :room ORDER BY name");
     $statement->execute(["room"=> "%" . $room ."%"]);
     $class = $statement->fetchAll();
 
@@ -53,7 +53,7 @@ function findByRoom(Response $response, PDO $db, string $room): Response{
 }
 
 function findByType(Response $response, PDO $db, string $type): Response{
-    $statement = $db->prepare("SELECT * FROM class WHERE type LIKE :type ORDER BY type");
+    $statement = $db->prepare("SELECT * FROM class WHERE type LIKE :type ORDER BY name");
     $statement->execute(["type"=> "%" . $type ."%"]);
     $class = $statement->fetchAll();
 
